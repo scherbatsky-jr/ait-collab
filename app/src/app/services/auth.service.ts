@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import axios, { AxiosResponse, AxiosError } from 'axios';
-import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -17,8 +16,10 @@ export class AuthService {
         .post('/auth/login', { username, password })
         .then((response) => {
           const accessToken = response.data.token;
+          const user = response.data.user;
 
-          localStorage.setItem('access_token', accessToken)
+          localStorage.setItem('user', JSON.stringify(user));
+          localStorage.setItem('access_token', accessToken);
 
           return response;
         })
@@ -40,13 +41,19 @@ export class AuthService {
         .post('/auth/register', data)
         .then((response) => {
             const accessToken = response.data.token;
+            const user = response.data.user;
 
-            localStorage.setItem('access_token', accessToken)
+            localStorage.setItem('user', user);
+            localStorage.setItem('access_token', accessToken);
             
             return response;
         })
         .catch((error: AxiosError) => {
             throw error
         })
+  }
+
+  getUser(): object {
+    return JSON.parse(JSON.stringify(localStorage.getItem('user')));
   }
 }

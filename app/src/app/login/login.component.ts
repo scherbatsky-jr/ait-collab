@@ -24,7 +24,6 @@ export class LoginComponent {
 
       this.authService.login(username, password)
       .then((response) => {
-        console.log(response)
         this.router.navigate(['/dashboard'])
       })
       .catch(error => {

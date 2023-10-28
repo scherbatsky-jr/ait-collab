@@ -1,0 +1,91 @@
+<div class="container mt-5">
+    <div class="row">
+      <!-- Left Sidebar Menu -->
+      <nav class="col-md-3 d-none d-md-block bg-light sidebar">
+        <div class="position-sticky">
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <a class="nav-link" [routerLink]="['/profile']" fragment="user-info-tab">User Information</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" [routerLink]="['/profile']" fragment="academic-info-tab">Academic Information</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" [routerLink]="['/profile']" fragment="change-password-tab">Change Password</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+  
+      <!-- Main Content Area -->
+      <div class="col-md-9">
+        <div class="card">
+          <div class="card-header">Profile</div>
+          <div class="card-body">
+            <div class="tab-content">
+              <!-- User Information Section -->
+              <div [class]="getTabPaneClass('user-info-tab')" id="user-info-tab">
+                <h3>User Information</h3>
+                <!-- User Information Form -->
+                <form>
+                    <form (ngSubmit)="saveUserInfo()" #userForm="ngForm">
+                        <div class="form-group mb-2">
+                            <label for="firstName">First Name</label>
+                            <input type="text" class="form-control" id="firstName" [(ngModel)]="userInfo.firstName" name="firstName" required>
+                          </div>
+                          <div class="form-group mb-2">
+                            <label for="lastName">Last Name</label>
+                            <input type="text" class="form-control" id="lastName" [(ngModel)]="userInfo.lastName" name="lastName" required>
+                          </div>
+                          <div class="form-group mb-2">
+                            <label for="email">Email</label>
+                            <input type="email" class="form-control" id="email" [(ngModel)]="userInfo.email" name="email" disabled>
+                          </div>
+                          <div class="form-group mb-2">
+                            <label for="gender">Gender</label>
+                            <select class="form-control" id="gender" [(ngModel)]="userInfo.gender" name="gender">
+                              <option value="male">Male</option>
+                              <option value="female">Female</option>
+                              <option value="other">Other</option>
+                            </select>
+                          </div>
+                          <div class="form-group mb-2">
+                            <label for="nationality">Nationality</label>
+                            <input type="text" class="form-control" id="nationality" [(ngModel)]="userInfo.nationality" name="nationality">
+                          </div>
+                          <div class="form-group mb-2">
+                            <label for="dob">Date of Birth</label>
+                            <input type="date" class="form-control" id="dob" [(ngModel)]="userInfo.dateOfBirth" name="dateOfBirth">
+                          </div>
+        
+                        <button type="submit" class="btn btn-primary">Save</button>
+                      </form>
+                </form>
+              </div>
+  
+              <!-- Academic Information Section -->
+              <div [class]="getTabPaneClass('academic-info-tab')" id="academic-info-tab">
+                <h3>Academic Information</h3>
+                <!-- Academic Information Form -->
+                <form>
+                  <!-- Academic Information Fields -->
+                  <!-- ... (Academic Information fields here) ... -->
+                </form>
+              </div>
+  
+              <!-- Change Password Section -->
+              <div [class]="getTabPaneClass('change-password-tab')" id="change-password-tab">
+                <h3>Change Password</h3>
+                <!-- Change Password Form -->
+                <form>
+                  <!-- Change Password Fields -->
+                  <!-- ... (Change Password fields here) ... -->
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
