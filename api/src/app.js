@@ -7,8 +7,23 @@ const User = require('./models/user');
 const session = require('express-session');
 const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
+const cors = require('cors');
 
 dotenv.config();
+
+const allowedOrigins = ['http://localhost:20171'];
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+};
+
+app.use(cors(corsOptions));
 
 // Connect to MongoDB
 const dbURI = process.env.MONGODB_URI
