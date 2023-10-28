@@ -1,6 +1,7 @@
-// services/authService.js
 const User = require('../models/user');
 const jwt = require('jsonwebtoken');
+
+require('dotenv').config();
 
 const jwtSecret = process.env.JWT_SECRET;
 
@@ -18,11 +19,15 @@ exports.registerUser = async (userData) => {
 };
 
 exports.authenticateUser = async (username, password) => {
-  try {
-    return await User.authenticate()(username, password);
-  } catch (error) {
-    throw error;
-  }
+    return new Promise((resolve, reject) => {
+        User.authenticate()(username, password, (err, user) => {
+          if (err || !user) {
+            reject(err);
+          } else {
+            resolve(user);
+          }
+        });
+      });
 };
 
 exports.issueAccessToken = (user) => {
