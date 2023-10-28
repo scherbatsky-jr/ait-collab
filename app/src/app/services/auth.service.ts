@@ -16,7 +16,6 @@ export class AuthService {
       return this.axiosInstance
         .post('/auth/login', { username, password })
         .then((response) => {
-          console.log(response)
           const accessToken = response.data.token;
 
           localStorage.setItem('access_token', accessToken)
@@ -34,5 +33,20 @@ export class AuthService {
 
   isLoggedIn(): boolean {
     return !!localStorage.getItem('access_token');
+  }
+
+  register(data: object): Promise<AxiosResponse> {
+    return this.axiosInstance
+        .post('/auth/register', data)
+        .then((response) => {
+            const accessToken = response.data.token;
+
+            localStorage.setItem('access_token', accessToken)
+            
+            return response;
+        })
+        .catch((error: AxiosError) => {
+            throw error
+        })
   }
 }
