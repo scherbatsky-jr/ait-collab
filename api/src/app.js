@@ -8,6 +8,7 @@ const session = require('express-session');
 const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
 const cors = require('cors');
+const jwt = require('jsonwebtoken');
 
 dotenv.config();
 
@@ -61,9 +62,25 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+function authenticateToken(req, res, next) {
+  const token = req.header('Authorization').split(' ')[1];
+
+  if (token == null) return res.sendStatus(401);
+
+  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+    if (err) return res.sendStatus(403);
+    req.user = user;
+    next();
+  });
+}
+
+
 // Include routes
 const authRoutes = require('./routes/authRoutes');
 app.use('/auth', authRoutes);
+
+const userRoutes = require('./routes/userRoutes');
+app.use('/user', authenticateToken, userRoutes);
 
 // Default route
 app.get('/', (req, res) => {

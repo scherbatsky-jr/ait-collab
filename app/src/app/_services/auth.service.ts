@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import axios, { AxiosResponse, AxiosError } from 'axios';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -11,11 +12,13 @@ export class AuthService {
     timeout: 10000, // Adjust the timeout as needed
   });
 
+  constructor(private router: Router) {}
+
   login(username: string, password: string): Promise<AxiosResponse> {
       return this.axiosInstance
         .post('/auth/login', { username, password })
         .then((response) => {
-          const accessToken = response.data.token;
+          const accessToken = response.data.access_token;
           const user = response.data.user;
 
           localStorage.setItem('user', JSON.stringify(user));
@@ -53,7 +56,13 @@ export class AuthService {
         })
   }
 
-  getUser(): object {
-    return JSON.parse(JSON.stringify(localStorage.getItem('user')));
+  getUser() {
+    if (localStorage.getItem('user')) {
+      return JSON.parse(localStorage.getItem('user') as string);
+    }
+    
+    this.logout();
+
+    this.router.navigate(['/login']);
   }
 }

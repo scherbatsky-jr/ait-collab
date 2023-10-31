@@ -1,27 +1,44 @@
 const User = require('../models/user');
 const authService = require('../services/authService');
+const passport = require('passport');
+const jwt = require('jsonwebtoken');
 
 exports.register = async (req, res) => {
   try {
     const newUser = await authService.registerUser(req.body);
-    const token = authService.issueAccessToken(newUser);
-    res.json({ message: 'Registration and login successful.', token: token, user: newUser });
+    req.login(newUser, (err) => {
+      if (err) {
+        console.error(err);
+        return res.status(400).json({ message: 'Registration and login failed.' });
+      }
+      return res.json({ message: 'Registration and login successful.', user: newUser });
+    });
   } catch (error) {
     console.error(error);
     res.status(400).json({ message: 'Registration failed.' });
   }
 };
 
-exports.login = async (req, res) => {
-  try {
-    const { username, password } = req.body;
-    const user = await authService.authenticateUser(username, password);
-    const token = authService.issueAccessToken(user);
-    res.json({ message: 'Login successful.', token: token, user: user });
-  } catch (error) {
-    console.error(error);
-    res.status(401).json({ message: 'Login failed.' });
-  }
+exports.login = (req, res, next) => {
+  passport.authenticate('local', (err, user) => {
+    if (err) {
+      console.error(err);
+      return res.status(401).json({ message: 'Login failed.' });
+    }
+    if (!user) {
+      return res.status(401).json({ message: 'Login failed.' });
+    }
+    req.login(user, (err) => {
+      if (err) {
+        console.error(err);
+        return res.status(401).json({ message: 'Login failed.' });
+      }
+
+      const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+      return res.json({ message: 'Login successful.', user, access_token: token});
+    });
+  })(req, res, next);
 };
 
 exports.requestPasswordReset = async (req, res) => {
@@ -55,4 +72,3 @@ exports.resetPassword = async (req, res) => {
 
   res.json({ message: 'Password reset successful' });
 };
-
