@@ -71,7 +71,7 @@ export class ProfileComponent {
     this.schools = this.schoolService.getSchools() as Array<School>;
   }
 
-  courseOptions(): Array<DropdownOption> {
+  fieldOptions(): Array<DropdownOption> {
     if (this.academicInfo.departmentCode) {
       const school = this.schools.find(school => school.code === this.academicInfo.schoolCode)
       
@@ -79,10 +79,10 @@ export class ProfileComponent {
         const department = school.departments.find(department => department.code === this.academicInfo.departmentCode)
           
         if (department) {
-          return department.courses.map(course => {
+          return department.fieldOfStudies.map(field => {
             return {
-              label: course.name,
-              value: course.code
+              label: field.name,
+              value: field.code
             } as DropdownOption
           })
         }

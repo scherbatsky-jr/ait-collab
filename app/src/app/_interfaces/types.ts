@@ -19,10 +19,10 @@ interface School {
 interface Department {
     name: String,
     code: String,
-    courses: Array<Course>
+    fieldOfStudies: Array<FieldOfStudy>
 }
 
-interface Course {
+interface FieldOfStudy {
     name: String,
     code: String
 }
@@ -43,7 +43,7 @@ interface AcademicInfo {
 
 export {
     AcademicInfo,
-    Course,
+    FieldOfStudy,
     DropdownOption,
     Department,
     School,

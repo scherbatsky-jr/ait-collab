@@ -127,7 +127,7 @@
                   <div class="form-group mb-2">
                     <label for="fieldOfStudy">Field Of Study</label>
                     <select id="fieldOfStudy" name="fieldOfStudy" class="form-control" [(ngModel)]="academicInfo.fieldOfStudy">
-                      <option *ngFor="let field of courseOptions()" [value]="field.value">{{ field.label }}</option>
+                      <option *ngFor="let field of fieldOptions()" [value]="field.value">{{ field.label }}</option>
                     </select>
                   </div>
                   
