@@ -82,6 +82,9 @@ app.use('/auth', authRoutes);
 const userRoutes = require('./routes/userRoutes');
 app.use('/user', authenticateToken, userRoutes);
 
+const schoolRoutes = require('./routes/schoolRoutes')
+app.use('/school', schoolRoutes);
+
 // Default route
 app.get('/', (req, res) => {
     res.json({ name: process.env.APP_NAME, version: process.env.APP_PORT });

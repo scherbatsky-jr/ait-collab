@@ -3,16 +3,18 @@ import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../_services/auth.service';
 import { NgForm } from '@angular/forms';
 import { UserService } from '../_services/user.service';
+import { SchoolService } from '../_services/school.service';
 
-interface UserInfo {
-  firstName: string
-  lastName: string
-  email: string
-  username: string
-  gender: string
-  nationality: string
-  dateOfBirth: Date | null
-}
+import { months } from '../_constants/months';
+import { programs } from '../_constants/programs';
+
+import {
+  AcademicInfo,
+  Department,
+  DropdownOption,
+  School,
+  UserInfo
+} from '../_interfaces/types';
 
 @Component({
   selector: 'app-profile',
@@ -24,6 +26,9 @@ export class ProfileComponent {
   showSuccessMessage: boolean = false;
   showErrorMessage: boolean = false;
   disableSubmit: boolean = false;
+  schools: Array<School> = [];
+  months: Array<String> = months;
+  programs: Array<String> = programs;
 
   userInfo: UserInfo = {
     firstName: '',
@@ -35,10 +40,20 @@ export class ProfileComponent {
     dateOfBirth: null
   }
 
+  academicInfo: AcademicInfo = {
+    intakeYear: '',
+    intakeMonth: '',
+    schoolCode: '',
+    departmentCode: '',
+    program: '',
+    fieldOfStudy: '',
+  }
+
   constructor (
     private route: ActivatedRoute,
     private authService: AuthService,
-    private userService: UserService
+    private userService: UserService,
+    private schoolService: SchoolService
   ) {
     this.route.fragment.subscribe(fragment => {
       if (fragment) {
@@ -49,8 +64,72 @@ export class ProfileComponent {
 
   ngOnInit() {
     const user = this.authService.getUser() as UserInfo
+    this.schoolService.fetchSchools();
 
     this.userInfo = user
+    this.academicInfo = user.academicInfo ? user.academicInfo : this.academicInfo;
+    this.schools = this.schoolService.getSchools() as Array<School>;
+  }
+
+  courseOptions(): Array<DropdownOption> {
+    if (this.academicInfo.departmentCode) {
+      const school = this.schools.find(school => school.code === this.academicInfo.schoolCode)
+      
+      if (school) {
+        const department = school.departments.find(department => department.code === this.academicInfo.departmentCode)
+          
+        if (department) {
+          return department.courses.map(course => {
+            return {
+              label: course.name,
+              value: course.code
+            } as DropdownOption
+          })
+        }
+      }
+    }
+    return [];
+  }
+
+  departmentOptions(): Array<DropdownOption> {
+    if (this.academicInfo.schoolCode) {
+      const school = this.schools.find(school => school.code === this.academicInfo.schoolCode);
+
+      if (school) {
+        return school.departments.map((department) => {
+          return {
+            label: department.name,
+            value: department.code
+          } as DropdownOption
+        })
+      }
+    }
+
+    return [];
+  }
+
+  schoolOptions(): Array<DropdownOption> {
+    return this.schools.map(school => {
+      return {
+        label: school.name,
+        value: school.code
+      }
+    })
+  }
+
+  yearOptions(): Array<DropdownOption> {
+    const currentYear = new Date().getFullYear();
+    const startYear = 1970;
+    const years = [];
+
+    for (let year = currentYear; year >= startYear; year--) {
+      years.push({
+        label: year.toString(),
+        value: year
+      });
+    }
+
+    return years;
   }
 
   getTabPaneClass(tab: string): Array<string> {
@@ -63,30 +142,41 @@ export class ProfileComponent {
     return cls
   }
 
+  saveAcademicInfo(academicForm: NgForm) {
+    if (academicForm.valid) {
+      this.userInfo.academicInfo = this.academicInfo;
+
+      this.updateUser();
+    }
+  }
+
   saveUserInfo(userInfoForm: NgForm) {
     if (userInfoForm.valid) {
-      this.disableSubmit = true;
-
-      this.userService.updateUser(this.userInfo)
-        .then((responnse) => {
-          this.showSuccessMessage = true;
-
-          this.userInfo = responnse.data
-
-          setTimeout(() => {
-            this.showSuccessMessage = false;
-          }, 5000)
-        })
-        .catch((error) => {
-          this.showErrorMessage = true;
-
-          setTimeout(() => {
-            this.showErrorMessage = false
-          }, 3000)
-        })
-        .finally(() => {
-          this.disableSubmit = false;
-        })
+      this.updateUser();
     }
+  }
+
+  updateUser() {
+    this. disableSubmit = true
+    this.userService.updateUser(this.userInfo)
+      .then((responnse) => {
+        this.showSuccessMessage = true;
+
+        this.userInfo = responnse.data
+
+        setTimeout(() => {
+          this.showSuccessMessage = false;
+        }, 5000)
+      })
+      .catch((error) => {
+        this.showErrorMessage = true;
+
+        setTimeout(() => {
+          this.showErrorMessage = false
+        }, 3000)
+      })
+      .finally(() => {
+        this.disableSubmit = false;
+      })
   }
 }

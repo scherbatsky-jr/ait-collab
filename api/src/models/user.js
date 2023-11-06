@@ -10,12 +10,7 @@ const userSchema = new mongoose.Schema({
     dateOfBirth: Date,
     gender: String,
     nationality: String,
-    intakeYear: Number,
-    intakeMonth: String,
-    expectedYearOfGraduation: Number,
-    course: String,
-    department: String,
-    school: String,
+    academicInfo: Object
 });
 
 userSchema.plugin(passportLocalMongoose);

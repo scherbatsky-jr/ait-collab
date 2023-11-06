@@ -88,9 +88,50 @@
               <div [class]="getTabPaneClass('academic-info-tab')" id="academic-info-tab">
                 <h3>Academic Information</h3>
                 <!-- Academic Information Form -->
-                <form>
-                  <!-- Academic Information Fields -->
-                  <!-- ... (Academic Information fields here) ... -->
+                <form (ngSubmit)="saveAcademicInfo(academicForm)" #academicForm="ngForm">
+                  <div class="form-group mb-2">
+                    <label for="intakeYear">Intake Year</label>
+                    <select id="intakeYear" name="intakeYear" class="form-control" [(ngModel)]="academicInfo.intakeYear">
+                      <option *ngFor="let year of yearOptions()" [value]="year.value">{{ year.label }}</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group mb-2">
+                    <label for="intakeMonth">Intake Month</label>
+                    <select id="intakeMonth" name="intakeMonth" class="form-control" [(ngModel)]="academicInfo.intakeMonth">
+                      <option *ngFor="let month of months" [value]="month">{{ month }}</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group mb-2">
+                    <label for="school">School</label>
+                    <select id="school" name="school" class="form-control" [(ngModel)]="academicInfo.schoolCode">
+                      <option *ngFor="let school of schoolOptions()" [value]="school.value">{{ school.label }}</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group mb-2">
+                    <label for="department">Department</label>
+                    <select id="department" name="department" class="form-control" [(ngModel)]="academicInfo.departmentCode">
+                      <option *ngFor="let department of departmentOptions()" [value]="department.value">{{ department.label }}</option>
+                    </select>
+                  </div>
+                  
+                  <div class="form-group mb-2">
+                    <label for="degreeProgram">Degree Program</label>
+                    <select id="degreeProgram" name="degreeProgram" class="form-control" [(ngModel)]="academicInfo.program">
+                      <option *ngFor="let program of programs" [value]="program">{{ program }}</option>
+                    </select>
+                  </div>
+                  
+                  <div class="form-group mb-2">
+                    <label for="fieldOfStudy">Field Of Study</label>
+                    <select id="fieldOfStudy" name="fieldOfStudy" class="form-control" [(ngModel)]="academicInfo.fieldOfStudy">
+                      <option *ngFor="let field of courseOptions()" [value]="field.value">{{ field.label }}</option>
+                    </select>
+                  </div>
+                  
+                  <button type="submit" class="btn btn-primary" [disabled]="disableSubmit">Save</button>
                 </form>
               </div>
   
