@@ -6,7 +6,7 @@
         </div>
         <div class="c-chat-box__pane">
             <div class="c-chat-box__messages">
-                <div [class]="messageClass(message.self)" *ngFor="let message of messages">
+                <div [class]="messageClass(message.userId)" *ngFor="let message of messages">
                     <div class="profile-pic"></div>
                     <div class="text">{{ message.text }}</div>
                 </div>

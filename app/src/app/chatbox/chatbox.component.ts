@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { WebsocketService } from '../_services/websocket.service';
+import { ChatMessage } from '../_interfaces/types';
+import { AuthService } from '../_services/auth.service';
 
 @Component({
   selector: 'app-chatbox',
@@ -7,56 +10,26 @@ import { Component } from '@angular/core';
 })
 export class ChatboxComponent {
   friends = [1, 2, 3];
-  messages = [
-    {
-      text: "hello",
-      self: true
-    },
-    {
-      text: "hello",
-      self: false
-    },
-    {
-      text: "hello",
-      self: true
-    },
-    {
-      text: "hello",
-      self: true
-    },
-    {
-      text: "hello",
-      self: false
-    },
-    {
-      text: "hello",
-      self: true
-    },
-    {
-      text: "hello",
-      self: false
-    },
-    {
-      text: "hello",
-      self: false
-    },
-    {
-      text: "hello",
-      self: false
-    },
-    {
-      text: "hello",
-      self: false
-    },
-  ];
+  messages: Array<ChatMessage> = [];
   inputMessage: string = '';
 
   showChats: boolean = false;
 
-  messageClass(self: boolean) {
+  constructor(
+    private webSocketService: WebsocketService,
+    private authService: AuthService
+  ) {
+    this.webSocketService.joinRoom({chatId: '654a438ec235d6d572c90ff3'})
+  
+    this.webSocketService.newMessageReceived().subscribe((data: any) => {
+      this.messages.unshift(data);
+    });
+  }
+
+  messageClass(userId: String | Number) {
     const cls = ['c-chat-box__message'];
 
-    if (self) {
+    if (userId == this.authService.getUser()._id) {
       cls.push('c-chat-box__message--self');
     }
 
@@ -69,9 +42,10 @@ export class ChatboxComponent {
   }
 
   onSend() {
-    this.messages.unshift({
-      text: this.inputMessage,
-      self: true
+    this.webSocketService.sendMessage({
+      chatId: '654a438ec235d6d572c90ff3',
+      userId: this.authService.getUser()._id,
+      text: this.inputMessage
     });
 
     this.inputMessage = ''

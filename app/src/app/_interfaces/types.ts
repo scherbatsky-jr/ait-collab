@@ -41,8 +41,15 @@ interface AcademicInfo {
     fieldOfStudy: String
 }
 
+interface ChatMessage {
+    chatId: Number | String;
+    userId: Number | String;
+    text: String;
+}
+
 export {
     AcademicInfo,
+    ChatMessage,
     FieldOfStudy,
     DropdownOption,
     Department,

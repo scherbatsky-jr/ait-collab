@@ -9,6 +9,8 @@ const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
+const socket = require('socket.io');
+const http = require('http')
 
 dotenv.config();
 
@@ -87,11 +89,57 @@ app.use('/school', schoolRoutes);
 
 // Default route
 app.get('/', (req, res) => {
-    res.json({ name: process.env.APP_NAME, version: process.env.APP_PORT });
+  res.json({ name: process.env.APP_NAME, version: process.env.APP_PORT });
 });
+
+const server = http.createServer(app);
+const io = socket(server, {
+  cors: {
+    origin: 'http://localhost:20171',
+    methods: ['GET', 'POST'],
+    credentials: true,
+  }
+});
+
+let chatRooms = db.collection("chats");
+
+io.sockets.on('connection', (socket) => {
+  socket.on('join', (data) => {
+    socket.join(data.chatId);
+    chatRooms.find({}).toArray((err, rooms) => {
+      if (err) {
+        console.log(err);
+        return false;
+      }
+      count = 0;
+      rooms.forEach((room) => {
+        if (room.id == data.chatId) {
+          count++;
+        }
+      });
+      // Create the chatRoom if not already created
+      if (count == 0) {
+        chatRooms.insert({ messages: [] });
+      }
+    });
+  });
+
+  // catching the message event
+  socket.on('message', (data) => {
+    io.in(data.chatId).emit('new message', {userId: data.userId, text: data.text });
+
+    chatRooms.updateOne({ _id: data.chatId}, { $push: { messages: { userId: data.userId, text: data.text } } }, (err, res) => {
+        if(err) {
+            console.log(err);
+            return false;
+        }
+    });
+});
+})
 
 // Start the server
 const port = process.env.PORT || 20178;
-app.listen(port, () => {
+
+server.listen(port, () => {
   console.log(`Server started on port ${port}`);
 });

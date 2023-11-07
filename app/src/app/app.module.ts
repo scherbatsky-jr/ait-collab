@@ -17,6 +17,8 @@ import { EventsComponent } from './events/events.component';
 import { ProfileBoxComponent } from './profile-box/profile-box.component';
 import { ChatboxComponent } from './chatbox/chatbox.component';
 
+import { WebsocketService } from './_services/websocket.service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -38,7 +40,7 @@ import { ChatboxComponent } from './chatbox/chatbox.component';
     NgbModule,
     FormsModule
   ],
-  providers: [],
+  providers: [WebsocketService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
