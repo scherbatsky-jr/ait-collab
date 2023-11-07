@@ -15,7 +15,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { ConnectionsComponent } from './connections/connections.component';
 import { EventsComponent } from './events/events.component';
 import { ProfileBoxComponent } from './profile-box/profile-box.component';
-import { MentorsComponent } from './connections/mentors/mentors.component';
+import { ChatboxComponent } from './chatbox/chatbox.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +30,7 @@ import { MentorsComponent } from './connections/mentors/mentors.component';
     ConnectionsComponent,
     EventsComponent,
     ProfileBoxComponent,
-    MentorsComponent,
+    ChatboxComponent,
   ],
   imports: [
     BrowserModule,
