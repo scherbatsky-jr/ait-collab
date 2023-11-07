@@ -1,0 +1,31 @@
+.c-profile-box {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px; /* Rounded borders */
+    padding: 1rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Box shadow */
+  
+  &__photo {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    margin-right: 1rem;
+  }
+  
+  &__details {
+    flex: 1;
+    text-align: center;
+
+    .name {
+        font-weight: bold;
+    }
+  }
+  
+  .connect-button {
+    background-color: #007BFF;
+    color: white;
+  }
+}

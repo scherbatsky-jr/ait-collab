@@ -11,6 +11,11 @@ import { RegisterComponent } from './register/register.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ProfileComponent } from './profile/profile.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
+import { ConnectionsComponent } from './connections/connections.component';
+import { EventsComponent } from './events/events.component';
+import { ProfileBoxComponent } from './profile-box/profile-box.component';
+import { MentorsComponent } from './connections/mentors/mentors.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +25,12 @@ import { ProfileComponent } from './profile/profile.component';
     RegisterComponent,
     NavbarComponent,
     DashboardComponent,
-    ProfileComponent
+    ProfileComponent,
+    SidebarComponent,
+    ConnectionsComponent,
+    EventsComponent,
+    ProfileBoxComponent,
+    MentorsComponent,
   ],
   imports: [
     BrowserModule,
