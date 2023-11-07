@@ -7,12 +7,15 @@
     border-radius: 8px; /* Rounded borders */
     padding: 1rem;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Box shadow */
+    width: 15rem;
   
   &__photo {
+    background: grey;
+    border-radius: 50%;
     width: 100px;
     height: 100px;
     object-fit: cover;
-    margin-right: 1rem;
+    margin: 1rem;
   }
   
   &__details {
