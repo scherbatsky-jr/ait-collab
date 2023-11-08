@@ -12,6 +12,8 @@ const jwt = require('jsonwebtoken');
 const socket = require('socket.io');
 const http = require('http')
 
+const chatService = require('./services/chatService')
+
 dotenv.config();
 
 const allowedOrigins = ['http://localhost:20171'];
@@ -87,6 +89,9 @@ app.use('/user', authenticateToken, userRoutes);
 const schoolRoutes = require('./routes/schoolRoutes')
 app.use('/school', schoolRoutes);
 
+const chatRoutes = require('./routes/chatRoutes')
+app.use('/chat', authenticateToken, chatRoutes)
+
 // Default route
 app.get('/', (req, res) => {
   res.json({ name: process.env.APP_NAME, version: process.env.APP_PORT });
@@ -125,16 +130,11 @@ io.sockets.on('connection', (socket) => {
   });
 
   // catching the message event
-  socket.on('message', (data) => {
-    io.in(data.chatId).emit('new message', {userId: data.userId, text: data.text });
+  socket.on('message', async (data) => {
+    io.in(data.chatId).emit('new message', data);
 
-    chatRooms.updateOne({ _id: data.chatId}, { $push: { messages: { userId: data.userId, text: data.text } } }, (err, res) => {
-        if(err) {
-            console.log(err);
-            return false;
-        }
-    });
-});
+    chatService.addMessage(data);
+  });
 })
 
 // Start the server

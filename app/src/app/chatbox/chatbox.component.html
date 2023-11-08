@@ -2,7 +2,11 @@
     <div class="c-chat-box__header bg-primary" (click)="toggleChatBox()">Chats</div>
     <div class="c-chat-box__body" *ngIf="showChats">
         <div class="c-chat-box__list">
-            <div *ngFor="let friend of friends" class="c-chat-box__head"></div>
+            <div
+                *ngFor="let id of chatIds"
+                class="c-chat-box__head"
+                (click)="onChatClick(id)"
+            ></div>
         </div>
         <div class="c-chat-box__pane">
             <div class="c-chat-box__messages">
