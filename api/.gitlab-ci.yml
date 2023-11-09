@@ -1,0 +1,11 @@
+variables:
+  DOCKER_REGISTRY: 791674964012.dkr.ecr.ap-southeast-1.amazonaws.com/ait-collab-api
+
+build_api:
+  stage: build
+  script:
+    - cd api
+    - docker build -t $DOCKER_REGISTRY:$CI_COMMIT_REF_NAME .
+    - docker push $DOCKER_REGISTRY:$CI_COMMIT_REF_NAME
+  only:
+    - branches
