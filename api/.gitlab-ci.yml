@@ -5,7 +5,9 @@ build_api:
   stage: build
   script:
     - cd api
-    - docker build -t $DOCKER_REGISTRY:$CI_COMMIT_REF_NAME .
-    - docker push $DOCKER_REGISTRY:$CI_COMMIT_REF_NAME
+    - docker build -t $DOCKER_REGISTRY:$0.1 .
+    - docker push $DOCKER_REGISTRY:$0.1
   only:
     - branches
+  tags:
+    - gitlab-org-docker
