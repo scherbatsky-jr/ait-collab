@@ -11,6 +11,7 @@ services:
 build_api:
   stage: build
   script:
+    - systemctl start docker
     - cd api
     - docker build -f docker/Dockerfile -t $DOCKER_REGISTRY:0.1 .
     - docker push $DOCKER_REGISTRY:0.1
