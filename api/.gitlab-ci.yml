@@ -17,4 +17,4 @@ build_api:
   only:
     - branches
   tags:
-    - gitlab-org-docker
+    - docker
