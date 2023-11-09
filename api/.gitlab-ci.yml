@@ -1,6 +1,13 @@
 variables:
   DOCKER_REGISTRY: 791674964012.dkr.ecr.ap-southeast-1.amazonaws.com/ait-collab-api
 
+before_script:
+  - apt-get update -qy
+  - apt-get install -y docker.io
+
+services:
+  - name: docker:dind
+
 build_api:
   stage: build
   script:
