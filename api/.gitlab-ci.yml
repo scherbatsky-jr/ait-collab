@@ -12,8 +12,8 @@ build_api:
   stage: build
   script:
     - cd api
-    - docker build -t $DOCKER_REGISTRY:$0.1 .
-    - docker push $DOCKER_REGISTRY:$0.1
+    - docker build -t $DOCKER_REGISTRY:0.1 .
+    - docker push $DOCKER_REGISTRY:0.1
   only:
     - branches
   tags:
