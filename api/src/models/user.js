@@ -10,7 +10,20 @@ const userSchema = new mongoose.Schema({
     dateOfBirth: Date,
     gender: String,
     nationality: String,
-    academicInfo: Object
+    academicInfo: Object,
+    connections: [
+        {
+          user_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+          mentor: Boolean,
+        },
+    ],
+    connectionRequests: [
+        {
+          targetUserId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+          senderUserId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+          status: { type: String, enum: ['pending', 'accepted'] },
+        },
+      ],
 });
 
 userSchema.plugin(passportLocalMongoose);

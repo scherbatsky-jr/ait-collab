@@ -43,10 +43,10 @@ export class AuthService {
     return this.axiosInstance
         .post('/auth/register', data)
         .then((response) => {
-            const accessToken = response.data.token;
+            const accessToken = response.data.access_token;
             const user = response.data.user;
 
-            localStorage.setItem('user', user);
+            localStorage.setItem('user', JSON.stringify(user));
             localStorage.setItem('access_token', accessToken);
             
             return response;

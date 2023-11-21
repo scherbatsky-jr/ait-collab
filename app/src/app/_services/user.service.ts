@@ -21,4 +21,60 @@ export class UserService {
         })
   }
  
+  getConnections(): Promise<AxiosResponse> {
+    return axiosClient
+      .get('/user/connections')
+      .then(response => {
+        return response
+      })
+      .catch((error) => {
+        throw error;
+    })
+  }
+
+  getSuggestions(): Promise<AxiosResponse> {
+    return axiosClient
+      .get('/user/suggestions')
+      .then(response => {
+        return response
+      })
+      .catch((error) => {
+        throw error;
+    })
+  }
+
+  sendConnectionRequest(targetUserId: string): Promise<AxiosResponse> {
+    return axiosClient
+      .post('/user/send-connection-request', { targetUserId: targetUserId})
+      .then(response => {
+        return response
+      })
+      .catch((error) => {
+        throw error;
+    })
+  }
+
+  acceptConnectionRequest(requesterId: string): Promise<AxiosResponse> {
+    return axiosClient
+      .post('/user/accept-connection-request', {requesterId: requesterId})
+      .then(response => {
+        return response
+      })
+      .catch((error) => {
+        throw error;
+    })
+  }
+
+  getPendingConnectionRequests(): Promise<AxiosResponse> {
+    return axiosClient
+      .get('/user/pending-connection-requests')
+      .then(response => {
+        return response
+      })
+      .catch((error) => {
+        throw error;
+    })
+  }
+
+
 }

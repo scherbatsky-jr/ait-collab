@@ -1,8 +1,13 @@
 <div class="c-profile-box">
     <div class="c-profile-box__photo" alt="Mentor Photo"></div>
     <div class="c-profile-box__details">
-        <h5 class="name">{{ user.name }}</h5>
+        <h5 class="name">{{ user.firstName + " " + user.lastName }}</h5>
         <p class="field">{{ user.fieldOfStudy }}</p>
     </div>
-    <button class="btn btn-primary connect-button">{{ isSuggestion ? 'Connect' : 'Chat' }}</button>
+    <button
+        class="btn btn-primary connect-button"
+        (click)="onClickButton()"
+    >
+        {{ getButtonLabel() }}
+    </button>
 </div>

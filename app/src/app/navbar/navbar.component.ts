@@ -8,10 +8,16 @@ import { Router } from '@angular/router';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent {
+  showNotification: boolean = false;
+
   constructor (private authService: AuthService, private router: Router) {}
 
   isLoggedIn(): boolean {
     return this.authService.isLoggedIn();
+  }
+
+  toggleNotifications(): void {
+    this.showNotification = !this.showNotification;
   }
 
   onLogout(): void {

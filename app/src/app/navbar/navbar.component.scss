@@ -1,0 +1,10 @@
+.fa-bell {
+    cursor: pointer;
+  }
+
+.navbar-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    color: white;
+    grid-gap: 1rem;
+}

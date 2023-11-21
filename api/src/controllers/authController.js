@@ -11,7 +11,8 @@ exports.register = async (req, res) => {
         console.error(err);
         return res.status(400).json({ message: 'Registration and login failed.' });
       }
-      return res.json({ message: 'Registration and login successful.', user: newUser });
+      const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET, { expiresIn: '1h'});
+      return res.json({ message: 'Registration and login successful.', user: newUser, access_token: token });
     });
   } catch (error) {
     console.error(error);

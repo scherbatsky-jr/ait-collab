@@ -4,6 +4,8 @@ import { ChatMessage } from '../_interfaces/types';
 import { AuthService } from '../_services/auth.service';
 import { ChatService } from '../_services/chat.service';
 
+import { Subscription } from 'rxjs';
+
 @Component({
   selector: 'app-chatbox',
   templateUrl: './chatbox.component.html',
@@ -17,6 +19,8 @@ export class ChatboxComponent {
 
   showChats: boolean = false;
 
+  private subscription: Subscription;
+
   constructor(
     private webSocketService: WebsocketService,
     private authService: AuthService,
@@ -26,6 +30,10 @@ export class ChatboxComponent {
   
     this.webSocketService.newMessageReceived().subscribe((data: any) => {
       this.messages.unshift(data);
+    });
+
+    this.subscription = this.chatService.chatboxToggle$.subscribe(open => {
+      this.showChats = open;
     });
   }
 
@@ -47,7 +55,6 @@ export class ChatboxComponent {
   }
 
   toggleChatBox() {
-    console.log('hello')
     this.showChats = !this.showChats;
   }
 
@@ -67,5 +74,9 @@ export class ChatboxComponent {
     });
 
     this.inputMessage = ''
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

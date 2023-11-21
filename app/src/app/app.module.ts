@@ -18,6 +18,7 @@ import { ProfileBoxComponent } from './profile-box/profile-box.component';
 import { ChatboxComponent } from './chatbox/chatbox.component';
 
 import { WebsocketService } from './_services/websocket.service';
+import { NotificationComponent } from './notification/notification.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { WebsocketService } from './_services/websocket.service';
     EventsComponent,
     ProfileBoxComponent,
     ChatboxComponent,
+    NotificationComponent,
   ],
   imports: [
     BrowserModule,
