@@ -8,20 +8,31 @@ const getChatIds = async (userId) => {
 
         const formattedChats = await Promise.all(userChats.map( async(chat) => {
             // Find the other user in the chat
-            const otherUserId = chat.users.find(id => id !== userId);
+        const otherUserId = chat.users.find(id => id !== userId);
 
-            // Fetch the other user's information
-            const otherUser = await User.findById(otherUserId, 'id firstName lastName');
-    
-            return {
-              id: chat._id,
-              otherUser: {
+        // Fetch the other user's information
+        const otherUser = await User.findById(otherUserId, 'id firstName lastName');
+
+        const lastMessage = chat.messages.length > 0
+                ? chat.messages[chat.messages.length - 1]
+                : null;
+
+        return {
+            id: chat._id,
+            otherUser: {
                 id: otherUser._id,
                 firstName: otherUser.firstName,
                 lastName: otherUser.lastName
-              }
-            };
-          }))
+            },
+            lastMessage: lastMessage
+                    ? {
+                        user_id: lastMessage.user_id,
+                        message: lastMessage.message,
+                        createdAt: lastMessage.createdAt
+                    }
+                    : null
+        };
+        }))
 
         return formattedChats;
     } catch (err) {

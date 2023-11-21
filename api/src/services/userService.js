@@ -1,6 +1,9 @@
 const User = require('../models/user');
 const chatService = require('../services/chatService')
 
+const s3 = require('../configs/aws')
+const fs = require('fs');
+
 function updateUser(userId, updateData) {
     return User.findByIdAndUpdate(userId, updateData, { new: true })
       .exec()
@@ -168,6 +171,39 @@ const getPendingConnectionRequests = async (userId) => {
   }
 }
 
+const uploadPhoto = async (file) => {
+  fileToBuffer(file, async (error, buffer) => {
+    if (error) {
+      console.error('Error converting file to buffer:', error);
+    } else {
+      console.log('herer')
+      const params = {
+        Bucket: 'ait-collab',
+        Key: file.originalname,
+        Body: buffer,
+        ContentType: file.mimetype,
+        ACL: 'public-read',
+      };
+
+      const result = await s3.upload(params).promise();
+      return result.Location;
+    }
+  });
+
+  return true
+}
+
+function fileToBuffer(file, callback) {
+  fs.readFile(file.path)
+    .then(data => {
+      const buffer = Buffer.from(data);
+      callback(null, buffer);
+    })
+    .catch(error => {
+      callback(error, null);
+    });
+}
+
 module.exports = {
   getConnections,
   getSuggestions,
@@ -175,4 +211,5 @@ module.exports = {
   acceptConnectionRequest,
   getPendingConnectionRequests,
   updateUser,
+  uploadPhoto
 };

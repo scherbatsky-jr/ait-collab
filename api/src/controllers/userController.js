@@ -68,11 +68,29 @@ const getPendingConnectionRequests = async (req, res) => {
   }
 }
 
+const uploadPhoto = async(req, res) => {
+  try {
+    const { file } = req;
+
+    if (!file) {
+      return res.status(400).json({ error: 'No file provided' });
+    }
+
+    const imageUrl = await userService.uploadPhoto(file);
+
+    res.json({ imageUrl });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
+
 module.exports = {
   updateUser,
   getConnections,
   getSuggestions,
   sendConnectionRequest,
   getPendingConnectionRequests,
-  acceptConnectionRequest
+  acceptConnectionRequest,
+  uploadPhoto
 };
