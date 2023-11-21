@@ -18,7 +18,9 @@ export class ChatboxComponent {
   currentChatId: string = '';
   currentChat: any;
 
-  showChats: boolean = false;
+  showChats: boolean = true;
+  showChatBox: boolean = false;
+  showChatMessages: boolean = false;
 
   private subscription: Subscription;
 
@@ -66,6 +68,10 @@ export class ChatboxComponent {
     this.showChats = !this.showChats;
   }
 
+  toggleChatBoxMessage() {
+    this.showChatMessages = !this.showChatMessages
+  }
+
   onChatClick(chat: any) {
     this.chatService.getChatMessages(chat.id)
       .then((response) => {
@@ -73,6 +79,9 @@ export class ChatboxComponent {
         this.messages = response.data;
 
         this.webSocketService.joinRoom({chatId: this.currentChat.id})
+
+        this.showChatBox = true
+        this.showChatMessages = true
       })
   }
 

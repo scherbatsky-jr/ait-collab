@@ -76,5 +76,23 @@ export class UserService {
     })
   }
 
+  uploadPhoto(file: File): Promise<AxiosResponse> {
+    const formData = new FormData();
+    formData.append('photo', file);
+
+    return axiosClient
+      .post('/user/upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+        transformRequest: [(data) => data],
+      })
+      .then(response => {
+        return response
+      })
+      .catch((error) => {
+        throw error;
+    })
+  }
 
 }

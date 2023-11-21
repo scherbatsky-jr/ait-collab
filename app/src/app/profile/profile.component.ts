@@ -28,6 +28,7 @@ export class ProfileComponent {
   schools: Array<School> = [];
   months: Array<String> = months;
   programs: Array<String> = programs;
+  selectedFile: File | null = null;
 
   userInfo: UserInfo = {
     firstName: '',
@@ -155,5 +156,15 @@ export class ProfileComponent {
       .finally(() => {
         this.disableSubmit = false;
       })
+  }
+
+  onFileSelected(event: any): void {
+    this.selectedFile = event.target.files[0];
+  }
+
+  uploadPhoto() {
+    if (this.selectedFile) {
+      this.userService.uploadPhoto(this.selectedFile)
+    }
   }
 }

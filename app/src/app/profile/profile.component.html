@@ -16,6 +16,12 @@
           </ul>
         </div>
       </nav>
+
+      <div>
+        <img />
+        <input type="file" (change)="onFileSelected($event)" name="photo"/>
+        <button (click)="uploadPhoto()">Upload Photo</button>
+      </div>
   
       <!-- Main Content Area -->
       <div class="col-md-9">
