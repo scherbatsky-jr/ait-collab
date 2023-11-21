@@ -12,10 +12,11 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./chatbox.component.scss']
 })
 export class ChatboxComponent {
-  chatIds: Array<string> = [];
+  chatIds: Array<any> = [];
   messages: Array<ChatMessage> = [];
   inputMessage: string = '';
   currentChatId: string = '';
+  currentChat: any;
 
   showChats: boolean = false;
 
@@ -26,12 +27,6 @@ export class ChatboxComponent {
     private authService: AuthService,
     private chatService: ChatService
   ) {
-    this.webSocketService.joinRoom({chatId: '654a438ec235d6d572c90ff3'})
-  
-    this.webSocketService.newMessageReceived().subscribe((data: any) => {
-      this.messages.unshift(data);
-    });
-
     this.subscription = this.chatService.chatboxToggle$.subscribe(open => {
       this.showChats = open;
     });
@@ -41,6 +36,19 @@ export class ChatboxComponent {
     this.chatService.getChatIds()
       .then(response => {
         this.chatIds = response.data
+
+        this.currentChat = this.chatIds[0]
+
+        this.chatService.getChatMessages(this.currentChat.id)
+          .then((response) => {
+            this.messages = response.data;
+          })
+
+        this.webSocketService.joinRoom({chatId: this.currentChat.id})
+      
+        this.webSocketService.newMessageReceived().subscribe((data: any) => {
+          this.messages.unshift(data);
+        });
       })
   }
 
@@ -58,19 +66,21 @@ export class ChatboxComponent {
     this.showChats = !this.showChats;
   }
 
-  onChatClick(id: string) {
-    this.chatService.getChatMessages(id)
+  onChatClick(chat: any) {
+    this.chatService.getChatMessages(chat.id)
       .then((response) => {
-        this.currentChatId = id;
+        this.currentChat = chat
         this.messages = response.data;
+
+        this.webSocketService.joinRoom({chatId: this.currentChat.id})
       })
   }
 
   onSend() {
     this.webSocketService.sendMessage({
-      chatId: '654a438ec235d6d572c90ff3',
+      chatId: this.currentChat.id,
       userId: this.authService.getUser()._id,
-      text: this.inputMessage
+      message: this.inputMessage
     });
 
     this.inputMessage = ''

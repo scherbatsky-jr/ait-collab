@@ -1,4 +1,5 @@
 const User = require('../models/user');
+const chatService = require('../services/chatService')
 
 function updateUser(userId, updateData) {
     return User.findByIdAndUpdate(userId, updateData, { new: true })
@@ -42,13 +43,18 @@ const getSuggestions = async (userId) => {
       .filter(request => request.status !== 'pending')
       .map(request => request.targetUserId); // Include all sent requests
 
-    // Use $nin to exclude already connected, users with pending requests, and users I've already sent requests to
-    const users = await User.aggregate([
-      { $match: { _id: { $nin: connectedUserIds.concat(pendingRequestUserIds).concat(sentRequestUserIds).concat(user._id) } } },
-      { $sample: { size: 10 } }
-    ]);
+   // Exclude already connected, users with pending requests, users I've already sent requests to, and myself
+   const excludedUserIds = connectedUserIds.concat(pendingRequestUserIds).concat(sentRequestUserIds).concat(userId);
 
-    return users;
+   // Get suggestions based on academicInfo conditions
+   const suggestions = await User.find({
+     _id: { $nin: excludedUserIds },
+     'academicInfo.intakeYear': user.academicInfo.intakeYear - 1,
+     'academicInfo.school': user.academicInfo.school,
+     'academicInfo.fieldOfStudy': user.academicInfo.fieldOfStudy
+   }).limit(10);
+
+    return suggestions;
   } catch (error) {
     throw new Error(`Error in UserService: ${error.message}`);
   }
@@ -125,14 +131,15 @@ const acceptConnectionRequest = async (userId, requesterId) => {
       status: 'connected',
     });
 
-
     // Remove the connection request
     user.connectionRequests = user.connectionRequests.filter(
-      request => request.user_id.toString() !== requesterId
+      request => request.senderUserId.toString() !== requesterId
     );
 
     await user.save();
     await requester.save();
+
+    chatService.createChat([user._id.toString(), requester._id.toString()])
 
     return { message: 'Connection request accepted' };
   } catch (error) {

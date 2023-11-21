@@ -13,13 +13,12 @@ interface School {
     name: String;
     code: String;
     _id: String;
-    departments: Array<Department>
+    fieldOfStudies: Array<FieldOfStudy>
 }
 
 interface Department {
     name: String,
     code: String,
-    fieldOfStudies: Array<FieldOfStudy>
 }
 
 interface FieldOfStudy {
@@ -35,8 +34,7 @@ interface DropdownOption {
 interface AcademicInfo {
     intakeYear: String,
     intakeMonth: String,
-    schoolCode: String,
-    departmentCode: String,
+    school: String,
     program: String,
     fieldOfStudy: String
 }
@@ -44,7 +42,7 @@ interface AcademicInfo {
 interface ChatMessage {
     chatId: Number | String;
     userId: Number | String;
-    text: String;
+    message: String;
 }
 
 export {

@@ -10,7 +10,6 @@ import { programs } from '../_constants/programs';
 
 import {
   AcademicInfo,
-  Department,
   DropdownOption,
   School,
   UserInfo
@@ -43,8 +42,7 @@ export class ProfileComponent {
   academicInfo: AcademicInfo = {
     intakeYear: '',
     intakeMonth: '',
-    schoolCode: '',
-    departmentCode: '',
+    school: '',
     program: '',
     fieldOfStudy: '',
   }
@@ -72,39 +70,18 @@ export class ProfileComponent {
   }
 
   fieldOptions(): Array<DropdownOption> {
-    if (this.academicInfo.departmentCode) {
-      const school = this.schools.find(school => school.code === this.academicInfo.schoolCode)
+    if (this.academicInfo.school) {
+      const school = this.schools.find(school => school.code === this.academicInfo.school)
       
       if (school) {
-        const department = school.departments.find(department => department.code === this.academicInfo.departmentCode)
-          
-        if (department) {
-          return department.fieldOfStudies.map(field => {
+          return school.fieldOfStudies.map(field => {
             return {
               label: field.name,
               value: field.code
             } as DropdownOption
           })
         }
-      }
     }
-    return [];
-  }
-
-  departmentOptions(): Array<DropdownOption> {
-    if (this.academicInfo.schoolCode) {
-      const school = this.schools.find(school => school.code === this.academicInfo.schoolCode);
-
-      if (school) {
-        return school.departments.map((department) => {
-          return {
-            label: department.name,
-            value: department.code
-          } as DropdownOption
-        })
-      }
-    }
-
     return [];
   }
 

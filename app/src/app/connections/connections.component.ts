@@ -11,23 +11,50 @@ export class ConnectionsComponent {
   suggestions: Array<any> = []
   pendingRequests: Array<any> = []
 
+  loadingConnections: boolean = false
+  loadingSuggestions: boolean = false
+  loadingRequests: boolean = false
+
   constructor(private userService: UserService) {}
 
   ngOnInit () {
-    this.userService.getConnections()
-      .then(response => {
-        this.mentors = response.data.connections
-      })
+    this.getConnections()
+    this.getPendingRequests()
+    this.getSuggestions()      
+  }
 
-      this.userService.getPendingConnectionRequests()
+  getConnections() {
+    this.loadingConnections = true
+    
+    this.userService.getConnections()
+    .then(response => {
+      this.mentors = response.data.connections
+    })
+    .finally(() => {
+      this.loadingConnections = false
+    })
+  }
+
+  getPendingRequests() {
+    this.loadingRequests = true
+    this.userService.getPendingConnectionRequests()
       .then(response => {
         this.pendingRequests = response.data
       })
-
-      this.userService.getSuggestions()
-      .then(response => {
-        this.suggestions = response.data
+      .finally(() => {
+        this.loadingRequests = false
       })
+  }
+
+  getSuggestions () {
+    this.loadingSuggestions = true
+    this.userService.getSuggestions()
+    .then(response => {
+      this.suggestions = response.data
+    })
+    .finally(() => {
+      this.loadingSuggestions = false
+    })
   }
 
   acceptConnectionRequest(id: string) {
@@ -40,7 +67,7 @@ export class ConnectionsComponent {
   sendConnectionRequest(id: string) {
     this.userService.sendConnectionRequest(id)
       .then((response) => {
-        this.suggestions = this.suggestions?.filter(mentor => mentor._id != id)
+        this.getSuggestions()
       })
   }
   

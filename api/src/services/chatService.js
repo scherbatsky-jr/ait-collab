@@ -1,10 +1,29 @@
+const chat = require('../models/chat');
 const Chat = require('../models/chat');
+const User = require('../models/user');
 
 const getChatIds = async (userId) => {
     try {
-        const chats = await Chat.find({ users: userId})
+        const userChats = await Chat.find({ users: userId })
 
-        return chats.map(chat => chat._id)
+        const formattedChats = await Promise.all(userChats.map( async(chat) => {
+            // Find the other user in the chat
+            const otherUserId = chat.users.find(id => id !== userId);
+
+            // Fetch the other user's information
+            const otherUser = await User.findById(otherUserId, 'id firstName lastName');
+    
+            return {
+              id: chat._id,
+              otherUser: {
+                id: otherUser._id,
+                firstName: otherUser.firstName,
+                lastName: otherUser.lastName
+              }
+            };
+          }))
+
+        return formattedChats;
     } catch (err) {
         throw err
     }
@@ -12,12 +31,14 @@ const getChatIds = async (userId) => {
 
 const getChatMessages = async (chatId) => {
     try {
-        const chat = await Chat.findById(chatId)
-
-        return chat.messages;
-    } catch (err) {
-        throw err
-    }
+        const chat = await Chat.findById(chatId);
+        
+        const sortedMessages = chat.messages.sort((a, b) => b.createdAt - a.createdAt);
+    
+        return sortedMessages;
+      } catch (err) {
+        throw err;
+      }
 }
 
 const addMessage = async (data) => {
@@ -26,7 +47,7 @@ const addMessage = async (data) => {
             $push: {
                 messages: {
                     userId: data.userId,
-                    text: data.text,
+                    message: data.message,
                     createdAt: Date.now()
                 }
             },
@@ -39,8 +60,19 @@ const addMessage = async (data) => {
     }
 }
 
+const createChat = async (userIds) => {
+    try {
+        const chat = new Chat({users: userIds, messages: []})
+
+        chat.save()
+    } catch (err) {
+        throw err
+    }
+}
+
 module.exports = {
     addMessage,
     getChatIds,
-    getChatMessages
+    getChatMessages,
+    createChat
 }

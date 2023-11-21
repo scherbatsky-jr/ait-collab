@@ -1,18 +1,18 @@
 <div class="c-chat-box">
-    <div class="c-chat-box__header bg-primary" (click)="toggleChatBox()">Chats</div>
+    <div class="c-chat-box__header bg-primary p-2" (click)="toggleChatBox()"><span>Chats</span>-<span *ngIf="showChats">{{ currentChat.otherUser.firstName }}</span></div>
     <div class="c-chat-box__body" *ngIf="showChats">
         <div class="c-chat-box__list">
             <div
-                *ngFor="let id of chatIds"
+                *ngFor="let chat of chatIds"
                 class="c-chat-box__head"
-                (click)="onChatClick(id)"
+                (click)="onChatClick(chat)"
             ></div>
         </div>
         <div class="c-chat-box__pane">
             <div class="c-chat-box__messages">
                 <div [class]="messageClass(message.userId)" *ngFor="let message of messages">
                     <div class="profile-pic"></div>
-                    <div class="text">{{ message.text }}</div>
+                    <div class="text">{{ message.message }}</div>
                 </div>
             </div>
             <div class="c-chat-box__input">

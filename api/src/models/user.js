@@ -10,7 +10,13 @@ const userSchema = new mongoose.Schema({
     dateOfBirth: Date,
     gender: String,
     nationality: String,
-    academicInfo: Object,
+    academicInfo: {
+        intakeYear: Number,
+        intakeMonth: String,
+        school: String,
+        program: String,
+        fieldOfStudy: String
+    },
     connections: [
         {
           user_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },

@@ -5,13 +5,15 @@
             <div class="row mb-5">
                 <h3>Your Mentors:</h3>
                 <p>You chat with them to create new events</p>
-                <div class="horizontal-scroll">
+                <div class="spinner-border" *ngIf="loadingConnections"></div>
+                <div class="horizontal-scroll" *ngIf="!loadingConnections">
                     <app-profile-box *ngFor="let mentor of mentors" [user]="mentor" class="mentors"></app-profile-box>
                 </div>
             </div>
-            <div class="row">
+            <div class="row mb-5">
                 <h1 class="border-bottom pb-1">Pending Requests.</h1>
-                <div class="horizontal-scroll">
+                <div class="spinner-border" *ngIf="loadingRequests"></div>
+                <div class="horizontal-scroll" *ngIf="!loadingRequests">
                     <app-profile-box
                         *ngFor="let user of pendingRequests"
                         [user]="user"
@@ -25,7 +27,8 @@
             <div class="row">
                 <h1 class="border-bottom pb-1">New to the campus? Try finding a senior mentor!</h1>
                 <p>Following people from your department are open to mentoring! You can send up to 3 mentor requests!</p>
-                <div class="horizontal-scroll">
+                <div class="spinner-border" *ngIf="loadingSuggestions"></div>
+                <div class="horizontal-scroll" *ngIf="!loadingSuggestions">
                     <app-profile-box
                         *ngFor="let user of suggestions"
                         [user]="user"
