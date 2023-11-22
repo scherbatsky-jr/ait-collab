@@ -5,6 +5,7 @@ interface UserInfo {
     username: string
     gender: string
     nationality: string
+    mentor: Boolean
     dateOfBirth: Date | null
     academicInfo?: AcademicInfo
 }

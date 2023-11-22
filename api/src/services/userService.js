@@ -58,7 +58,7 @@ const getConnections = async (userId) => {
   }
 }
 
-const getSuggestions = async (userId) => {
+const getSuggestions = async (userId, count) => {
   try {
     const user = await User.findById(userId);
     if (!user) {
@@ -83,7 +83,7 @@ const getSuggestions = async (userId) => {
      'academicInfo.intakeYear': user.academicInfo.intakeYear - 1,
      'academicInfo.school': user.academicInfo.school,
      'academicInfo.fieldOfStudy': user.academicInfo.fieldOfStudy
-   }).limit(10);
+   }).limit(count);
 
     return suggestions;
   } catch (error) {

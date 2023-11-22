@@ -10,6 +10,7 @@ const userSchema = new mongoose.Schema({
     dateOfBirth: Date,
     gender: String,
     nationality: String,
+    mentor: Boolean,
     academicInfo: {
         intakeYear: Number,
         intakeMonth: String,

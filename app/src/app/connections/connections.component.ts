@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { UserService } from '../_services/user.service';
+import { AuthService } from '../_services/auth.service';
 
 @Component({
   selector: 'app-connections',
@@ -7,7 +8,7 @@ import { UserService } from '../_services/user.service';
   styleUrls: ['./connections.component.scss']
 })
 export class ConnectionsComponent {
-  mentors: Array<any> = []
+  connections: Array<any> = []
   suggestions: Array<any> = []
   pendingRequests: Array<any> = []
 
@@ -15,9 +16,12 @@ export class ConnectionsComponent {
   loadingSuggestions: boolean = false
   loadingRequests: boolean = false
 
-  constructor(private userService: UserService) {}
+  user: any;
+
+  constructor(private userService: UserService, private authService: AuthService) {}
 
   ngOnInit () {
+    this.user = this.authService.getUser()
     this.getConnections()
     this.getPendingRequests()
     this.getSuggestions()      
@@ -28,7 +32,7 @@ export class ConnectionsComponent {
     
     this.userService.getConnections()
     .then(response => {
-      this.mentors = response.data.connections
+      this.connections = response.data.connections
     })
     .finally(() => {
       this.loadingConnections = false
@@ -48,7 +52,7 @@ export class ConnectionsComponent {
 
   getSuggestions () {
     this.loadingSuggestions = true
-    this.userService.getSuggestions()
+    this.userService.getSuggestions(10)
     .then(response => {
       this.suggestions = response.data
     })

@@ -33,9 +33,10 @@ const getConnections = (req, res) => {
 
 const getSuggestions = async (req, res) => {
   const userId = req.user.userId
+  const count = req.params.count
 
   try {
-    const suggestions = await userService.getSuggestions(userId);
+    const suggestions = await userService.getSuggestions(userId, count);
     res.status(200).json(suggestions);
   } catch (error) {
     res.status(500).json({ error: error.message });

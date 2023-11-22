@@ -41,6 +41,7 @@ export class ProfileComponent {
     username: '',
     gender: '',
     nationality: '',
+    mentor: false,
     dateOfBirth: null
   }
 
@@ -76,6 +77,10 @@ export class ProfileComponent {
     this.userInfo = user
     this.academicInfo = user.academicInfo ? user.academicInfo : this.academicInfo;
     this.schools = this.schoolService.getSchools() as Array<School>;
+  }
+
+  onCheckMentor() {
+    this.userInfo.mentor = !this.userInfo.mentor
   }
 
   openFileInput() {

@@ -1,2 +1,55 @@
-<div class="container mt-5">
+<div class="container mt-3">
+    <h1>Welcome to AIT Collab</h1>
+    <p>
+        AIT Collab is a platform to connect students in AIT. Our main aim to foster a fruitful and collaborative
+        relationship between a junior and a senior student. As a new student it might be overwhelming to figure out and 
+        navigate around the campus. We offer to provide a medium to connect with seniors from your department and participate 
+        in events created by your mentor. Apart from that, you can also connect to other students from your department and more.
+    </p>
+    <p>
+        If you are a senior student, you can opt in the mentor program where junior student can request you to connect with you.
+        You can opt in the mentor program by updating your profile Information in your profile page.
+    </p>
+    <div class="section-2">
+        <div>
+            <p>You can find more resources regarding the college in the official website. Here are some useful links:</p>
+            <ul>
+                 <li><a href="https://ait.ac.th/student-housing/" target="_blank">Student Housing</a></li>
+                 <li><a href="https://sis.ait.ac.th/" target="_blank">SIS Login Page</a></li>
+                 <li><a href="https://library.ait.ac.th/" target="_blank">Library website</a></li>
+            </ul>
+            <div class="d-flex justify-content-center p-3">
+                <img src="../../assets/AIT_globe.jpg" />
+            </div>
+        </div>
+        <div class="connections" *ngIf="user.mentor">
+            <h3>Connect with your circle!</h3>
+            <div class="spinner-border" *ngIf="loadingConnections"></div>
+            <div class="list" *ngIf="!loadingConnections">
+                <app-profile-box
+                        *ngFor="let user of connections"
+                        [user]="user"
+                        class="connection"
+                        (sendRequest)="sendConnectionRequest($event)"
+                    >
+                    </app-profile-box>
+            </div>
+            <div *ngIf="!loadingConnections && !connections.length">No people are in your circle right now. Please connect with other students.</div>
+        </div>
+        <div class="mentor-suggestions" *ngIf="!user.mentor">
+            <h3>Connect with possible mentors</h3>
+            <div class="spinner-border" *ngIf="loadingSuggestions"></div>
+            <div class="list" *ngIf="!loadingSuggestions">
+                <app-profile-box
+                        *ngFor="let user of suggestions"
+                        [user]="user"
+                        [userType]="'suggestion'"
+                        class="mentor-suggestion"
+                        (sendRequest)="sendConnectionRequest($event)"
+                    >
+                    </app-profile-box>
+            </div>
+            <div *ngIf="!loadingSuggestions && !suggestions.length">No mentors in your network right now.</div>
+        </div>
+    </div>
 </div>

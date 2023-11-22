@@ -32,9 +32,9 @@ export class UserService {
     })
   }
 
-  getSuggestions(): Promise<AxiosResponse> {
+  getSuggestions(count: Number): Promise<AxiosResponse> {
     return axiosClient
-      .get('/user/suggestions')
+      .get('/user/suggestions/'+count)
       .then(response => {
         return response
       })

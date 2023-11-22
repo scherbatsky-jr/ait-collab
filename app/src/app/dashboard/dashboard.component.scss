@@ -1,0 +1,30 @@
+.mentor-suggestions, .connections {
+    border: 1px solid grey;
+    border-radius: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    width: fit-content;
+    min-height: 10rem;
+
+    .list {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 1rem;
+    }
+}
+
+.section-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    a {
+        text-decoration: none;
+        color: black;
+    }
+
+    img {
+        height: 20rem;
+        width: 20rem;
+    }
+}
