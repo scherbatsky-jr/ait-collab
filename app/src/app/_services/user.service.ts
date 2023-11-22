@@ -76,6 +76,17 @@ export class UserService {
     })
   }
 
+  updatePassword(data: object):  Promise<AxiosResponse> {
+    return axiosClient
+      .post('/user/update-password', data)
+      .then(response => {
+        return response
+      })
+      .catch((error) => {
+        throw error;
+    })
+  }
+
   uploadPhoto(file: File): Promise<AxiosResponse> {
     const formData = new FormData();
     formData.append('photo', file);
@@ -94,5 +105,4 @@ export class UserService {
         throw error;
     })
   }
-
 }

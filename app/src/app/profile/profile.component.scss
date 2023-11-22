@@ -1,0 +1,19 @@
+:host {
+    width: 100%;
+}
+
+.profile-pic {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+}
+
+.profile-image {
+    border: 1px solid grey;
+    border-radius: 50%;
+    cursor: pointer;
+    height: 10rem;
+    width: 10rem;
+    margin-bottom: 1rem;
+}

@@ -45,9 +45,39 @@ interface ChatMessage {
     message: String;
 }
 
+interface Event {
+    id: String
+    name: String
+    type: String
+    location: String
+    date: {
+        year: any
+        month: any
+        day: any
+    }
+    time: {
+        hour: any
+        minute: any
+    }
+    description: String
+    participants: Array<string>
+}
+
+interface EventInput {
+    name: String
+    type: String
+    location: String
+    date: Object
+    time: Object
+    description: String
+    participants: Array<string>
+}
+
 export {
     AcademicInfo,
     ChatMessage,
+    Event,
+    EventInput,
     FieldOfStudy,
     DropdownOption,
     Department,

@@ -1,4 +1,22 @@
 <div class="c-chat-box">
+    <div class="c-chat-box__message-box" *ngIf="showChatBox">
+        <div class="c-chat-box__header d-flex justify-content-between bg-primary p-2" (click)="toggleChatBoxMessage()">
+            <div>{{ currentChat.otherUser.firstName + " " + currentChat.otherUser.lastName }}</div>
+            <div (click)="showChatBox = false"><i class="fa-solid fa-xmark"></i></div>
+        </div>
+        <div *ngIf="showChatMessages">
+            <div class="c-chat-box__messages">
+                <div [class]="messageClass(message.userId)" *ngFor="let message of messages">
+                    <div class="profile-pic"></div>
+                    <div class="text">{{ message.message }}</div>
+                </div>
+            </div>
+            <div class="c-chat-box__input">
+                <input type="text" [(ngModel)]="inputMessage"/>
+                <button class="btn btn-primary" (click)="onSend()">Send</button>
+            </div>
+        </div>
+    </div>
     <div class="c-chat-box__list">
         <div class="c-chat-box__header bg-primary p-2" (click)="toggleChatBox()">Messages</div>
         <div class="c-chat-box__body" *ngIf="showChats">
@@ -12,24 +30,6 @@
                     <div class="name">{{ chat.otherUser.firstName + " " + chat.otherUser.lastName}}</div>
                     <div class="last-message">{{ chat.lastMessage.message }}</div>
                 </div>
-            </div>
-        </div>
-    </div>
-    <div class="c-chat-box__message-box" *ngIf="showChatBox">
-        <div class="c-chat-box__header d-flex justify-content-between bg-primary p-2" (click)="toggleChatBoxMessage()">
-            <div>{{ currentChat.otherUser.firstName }}</div>
-            <div (click)="showChatBox = false"><i class="fa-solid fa-xmark"></i></div>
-        </div>
-        <div *ngIf="showChatMessages">
-            <div class="c-chat-box__messages">
-                <div [class]="messageClass(message.userId)" *ngFor="let message of messages">
-                    <div class="profile-pic"></div>
-                    <div class="text">{{ message.message }}</div>
-                </div>
-            </div>
-            <div class="c-chat-box__input">
-                <input type="text" [(ngModel)]="inputMessage"/>
-                <button class="btn btn-primary" (click)="onSend()">Send</button>
             </div>
         </div>
     </div>

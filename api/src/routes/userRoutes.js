@@ -16,6 +16,7 @@ const upload = multer({
 router.post('/update', userController.updateUser);
 router.get('/connections', userController.getConnections)
 router.get('/suggestions', userController.getSuggestions);
+router.post('/update-password', userController.updatePassword);
 
 router.post('/send-connection-request', userController.sendConnectionRequest);
 router.post('/accept-connection-request', userController.acceptConnectionRequest);

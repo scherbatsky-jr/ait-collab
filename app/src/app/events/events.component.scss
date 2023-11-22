@@ -1,0 +1,35 @@
+:host {
+    width: 100%;
+}
+
+.add-event {
+    border-radius: 0.5rem;
+    box-shadow: 0px 0px 10px grey;
+    width: fit-content;
+    text-align: center;
+    cursor: pointer;
+
+    .icon {
+        font-size: 4rem;
+        margin-bottom: 0.75rem;
+    }
+}
+
+.event-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    margin: 1rem;
+
+    .event-box {
+        display: grid;
+        flex-direction: row;
+        grid-template-columns: 1.5fr 1fr 1fr 2fr;
+        padding: 1rem;
+        grid-gap: 1rem;
+
+        i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+    }
+}

@@ -18,7 +18,7 @@ export class ChatboxComponent {
   currentChatId: string = '';
   currentChat: any;
 
-  showChats: boolean = true;
+  showChats: boolean = false;
   showChatBox: boolean = false;
   showChatMessages: boolean = false;
 

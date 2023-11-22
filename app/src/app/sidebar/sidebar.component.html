@@ -1,15 +1,9 @@
-<nav class="col-md-3 d-none d-md-block bg-light sidebar">
-    <div class="position-sticky">
-      <ul class="nav flex-column">
-        <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/dashboard']">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/connections']">Connections</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/events']">Events</a>
-        </li>
-      </ul>
-    </div>
+<nav class="p-2 sidebar">   
+    <a class="nav-link" [routerLink]="['/dashboard']"><i class="fa-solid fa-house"></i>Home</a>
+
+    <a class="nav-link" [routerLink]="['/connections']"><i class="fa-solid fa-handshake"></i>Connections</a>
+  
+    <a class="nav-link" [routerLink]="['/events']"><i class="fa-solid fa-calendar-days"></i>Events</a>
+    <a class="nav-link" routerLink="/profile"><i class="fa-solid fa-user"></i>Profile</a> 
+    <a class="nav-link" (click)="onLogout()"><i class="fa-solid fa-right-from-bracket"></i>Log Out</a>      
 </nav>

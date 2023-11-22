@@ -13,6 +13,34 @@ function updateUser(userId, updateData) {
       });
   }
 
+const updatePassword = async (userId, currentPassword, newPassword) => {
+  try {
+    // Find the user by ID
+    const user = await User.findById(userId);
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    // Use passport-local-mongoose's authenticate method to verify the current password
+    const isCurrentPasswordValid = await user.authenticate(currentPassword);
+
+    if (!isCurrentPasswordValid) {
+      throw new Error('Current password is incorrect');
+    }
+
+    // Set the new password using passport-local-mongoose's setPassword method
+    await user.setPassword(newPassword);
+
+    // Save the updated user
+    await user.save();
+
+    return { message: 'Password updated successfully' };
+  } catch (error) {
+    throw new Error(`Error in UserService: ${error.message}`);
+  }
+}
+
 const getConnections = async (userId) => {
   try {
     const user = await User.findById(userId);
@@ -211,5 +239,6 @@ module.exports = {
   acceptConnectionRequest,
   getPendingConnectionRequests,
   updateUser,
-  uploadPhoto
+  uploadPhoto,
+  updatePassword
 };

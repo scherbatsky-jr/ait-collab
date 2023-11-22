@@ -10,6 +10,18 @@ function updateUser(req, res) {
     })
 }
 
+const updatePassword = async (req, res) => {
+  const userId = req.user.userId
+  const { currentPassword, newPassword } = req.body;
+
+  try {
+    const result = await userService.updatePassword(userId, currentPassword, newPassword);
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+}
+
 const getConnections = (req, res) => {
   const userId = req.user.userId
 
@@ -92,5 +104,6 @@ module.exports = {
   sendConnectionRequest,
   getPendingConnectionRequests,
   acceptConnectionRequest,
-  uploadPhoto
+  uploadPhoto,
+  updatePassword
 };

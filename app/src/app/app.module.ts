@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
+import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
+import { AngularMarkdownEditorModule } from 'angular-markdown-editor';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -19,6 +22,7 @@ import { ChatboxComponent } from './chatbox/chatbox.component';
 
 import { WebsocketService } from './_services/websocket.service';
 import { NotificationComponent } from './notification/notification.component';
+import { PasswordMatchDirective } from './_directives/password-match.directive';
 
 @NgModule({
   declarations: [
@@ -35,12 +39,16 @@ import { NotificationComponent } from './notification/notification.component';
     ProfileBoxComponent,
     ChatboxComponent,
     NotificationComponent,
+    PasswordMatchDirective,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     NgbModule,
-    FormsModule
+    FormsModule,
+    NgbDatepickerModule,
+    AngularMarkdownEditorModule,
+    NgMultiSelectDropDownModule
   ],
   providers: [WebsocketService],
   bootstrap: [AppComponent]

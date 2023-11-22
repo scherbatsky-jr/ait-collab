@@ -91,6 +91,9 @@ app.use('/school', schoolRoutes);
 const chatRoutes = require('./routes/chatRoutes')
 app.use('/chat', authenticateToken, chatRoutes)
 
+const eventRoutes = require('./routes/eventRoutes')
+app.use('/event', authenticateToken, eventRoutes)
+
 // Default route
 app.get('/', (req, res) => {
   res.json({ name: process.env.APP_NAME, version: process.env.APP_PORT });

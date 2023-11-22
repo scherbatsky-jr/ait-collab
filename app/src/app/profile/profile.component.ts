@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component,  ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../_services/auth.service';
 import { NgForm } from '@angular/forms';
@@ -21,6 +21,10 @@ import {
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent {
+  @ViewChild('fileInput') fileInput!: ElementRef;
+  imageUrl: string | ArrayBuffer = '';
+  profileImage!: File;
+
   profileSection: string = 'user-info-tab'
   showSuccessMessage: boolean = false;
   showErrorMessage: boolean = false;
@@ -48,6 +52,10 @@ export class ProfileComponent {
     fieldOfStudy: '',
   }
 
+  currentPassword = ''
+  newPassword = ''
+  confirmPassword = ''
+
   constructor (
     private route: ActivatedRoute,
     private authService: AuthService,
@@ -68,6 +76,26 @@ export class ProfileComponent {
     this.userInfo = user
     this.academicInfo = user.academicInfo ? user.academicInfo : this.academicInfo;
     this.schools = this.schoolService.getSchools() as Array<School>;
+  }
+
+  openFileInput() {
+    this.fileInput.nativeElement.click();
+  }
+
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.profileImage = file
+      this.readImage(file);
+    }
+  }
+
+  readImage(file: File) {
+    const reader = new FileReader();
+    reader.onload = (event: any) => {
+      this.imageUrl = event.target.result;
+    };
+    reader.readAsDataURL(file);
   }
 
   fieldOptions(): Array<DropdownOption> {
@@ -158,13 +186,36 @@ export class ProfileComponent {
       })
   }
 
-  onFileSelected(event: any): void {
-    this.selectedFile = event.target.files[0];
+  uploadPhoto() {
+    if (this.profileImage) {
+      this.userService.uploadPhoto(this.profileImage)
+    }
   }
 
-  uploadPhoto() {
-    if (this.selectedFile) {
-      this.userService.uploadPhoto(this.selectedFile)
-    }
+  changePassword() {
+    this. disableSubmit = true
+    this.userService.updatePassword({
+      currentPassword: this.currentPassword,
+      newPassword: this.newPassword
+    })
+      .then((responnse) => {
+        this.showSuccessMessage = true;
+
+        this.userInfo = responnse.data
+
+        setTimeout(() => {
+          this.showSuccessMessage = false;
+        }, 5000)
+      })
+      .catch((error) => {
+        this.showErrorMessage = true;
+
+        setTimeout(() => {
+          this.showErrorMessage = false
+        }, 3000)
+      })
+      .finally(() => {
+        this.disableSubmit = false;
+      })
   }
 }

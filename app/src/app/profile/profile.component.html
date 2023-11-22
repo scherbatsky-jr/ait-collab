@@ -3,6 +3,11 @@
       <!-- Left Sidebar Menu -->
       <nav class="col-md-3 d-none d-md-block bg-light sidebar">
         <div class="position-sticky">
+          <div class="profile-pic">
+            <img class="profile-image" (click)="openFileInput()" [src]="imageUrl"/>
+            <input type="file" #fileInput style="display: none" (change)="onFileSelected($event)" accept="image/*" />
+            <button (click)="uploadPhoto()" class="btn btn-primary">Upload Photo</button>
+          </div>
           <ul class="nav flex-column">
             <li class="nav-item">
               <a class="nav-link" [routerLink]="['/profile']" fragment="user-info-tab">User Information</a>
@@ -16,12 +21,6 @@
           </ul>
         </div>
       </nav>
-
-      <div>
-        <img />
-        <input type="file" (change)="onFileSelected($event)" name="photo"/>
-        <button (click)="uploadPhoto()">Upload Photo</button>
-      </div>
   
       <!-- Main Content Area -->
       <div class="col-md-9">
@@ -140,9 +139,31 @@
               <div [class]="getTabPaneClass('change-password-tab')" id="change-password-tab">
                 <h3>Change Password</h3>
                 <!-- Change Password Form -->
-                <form>
-                  <!-- Change Password Fields -->
-                  <!-- ... (Change Password fields here) ... -->
+                <div *ngIf="showSuccessMessage" class="text-success mb-2">Changes saved successfully.</div>
+                <div *ngIf="showErrorMessage" class="text-danger mb-2">Changes could not be saved. Please try again.</div>
+                <form (ngSubmit)="changePassword()" #passwordChangeForm="ngForm">
+                  <div class="form-group mb-2">
+                    <label for="currentPassword">Current Password:</label>
+                    <input type="password" class="form-control" id="currentPassword" name="currentPassword" [(ngModel)]="currentPassword" required>
+                    <div *ngIf="passwordChangeForm.controls['currentPassword'].touched && passwordChangeForm.controls['currentPassword'].invalid" class="text-danger">
+                      Current Password is required.
+                    </div>
+                  </div>
+                  <div class="form-group mb-2">
+                    <label for="newPassword">New Password:</label>
+                    <input type="password" class="form-control" id="newPassword" name="newPassword" [(ngModel)]="newPassword" required>
+                    <div *ngIf="passwordChangeForm.controls['newPassword'].touched && passwordChangeForm.controls['newPassword'].invalid" class="text-danger">
+                      New Password is required and must be at least 8 characters.
+                    </div>
+                  </div>
+                  <!-- <div class="form-group mb-2">
+                    <label for="confirmPassword">Confirm New Password:</label>
+                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" [(ngModel)]="confirmPassword" required  appPasswordMatch [otherControl]="newPassword">
+                    <div *ngIf="passwordChangeForm.controls['confirmPassword'].touched && passwordChangeForm.controls['confirmPassword'].invalid" class="text-danger">
+                      Confirm Password is required and must match the New Password.
+                    </div>
+                  </div> -->
+                  <button type="submit" class="btn btn-primary" [disabled]="!passwordChangeForm.valid || disableSubmit">Change Password</button>
                 </form>
               </div>
             </div>

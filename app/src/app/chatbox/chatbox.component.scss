@@ -1,6 +1,6 @@
 .c-chat-box {
     position: fixed;
-    left: 0;
+    right: 0;
     bottom: 0;
     margin-left: 2rem;
     display: flex;;
@@ -12,6 +12,7 @@
         border: 1px solid grey;
         margin-right: 1rem;
         width: 20rem;
+        background: whitesmoke;
     }
 
     .chat {
@@ -36,6 +37,7 @@
     &__message-box {
         border: 1px solid grey;
         width: 20rem;
+        margin-right: 2rem;
     }
 
     &__header {
