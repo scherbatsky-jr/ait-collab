@@ -4,6 +4,7 @@ import { AuthService } from '../_services/auth.service';
 import { NgForm } from '@angular/forms';
 import { UserService } from '../_services/user.service';
 import { SchoolService } from '../_services/school.service';
+import { ToastrService } from 'ngx-toastr';
 
 import { months } from '../_constants/months';
 import { programs } from '../_constants/programs';
@@ -61,7 +62,8 @@ export class ProfileComponent {
     private route: ActivatedRoute,
     private authService: AuthService,
     private userService: UserService,
-    private schoolService: SchoolService
+    private schoolService: SchoolService,
+    private toastService: ToastrService
   ) {
     this.route.fragment.subscribe(fragment => {
       if (fragment) {
@@ -175,12 +177,16 @@ export class ProfileComponent {
 
         this.userInfo = responnse.data
 
+        this.toastService.success("Profile updated succesfully.")
+
         setTimeout(() => {
           this.showSuccessMessage = false;
         }, 5000)
       })
       .catch((error) => {
         this.showErrorMessage = true;
+
+        this.toastService.error('Something went wrong. Plese try again')
 
         setTimeout(() => {
           this.showErrorMessage = false
@@ -208,12 +214,16 @@ export class ProfileComponent {
 
         this.userInfo = responnse.data
 
+        this.toastService.success("Password updated succesfully.")
+
         setTimeout(() => {
           this.showSuccessMessage = false;
         }, 5000)
       })
       .catch((error) => {
         this.showErrorMessage = true;
+
+        this.toastService.error('Something went wrong. Plese try again')
 
         setTimeout(() => {
           this.showErrorMessage = false

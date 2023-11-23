@@ -4,6 +4,7 @@ import { EventService } from '../_services/event.service';
 import { UserService } from '../_services/user.service';
 import { EventInput, Event } from '../_interfaces/types';
 import { AuthService } from '../_services/auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-events',
@@ -38,7 +39,8 @@ export class EventsComponent {
     private modalService: NgbModal,
     private eventService: EventService,
     private userService: UserService,
-    private authService: AuthService
+    private authService: AuthService,
+    private toastService: ToastrService
   ) {}
 
   ngOnInit() {
@@ -70,6 +72,9 @@ export class EventsComponent {
     this.eventService.createEvent(this.event)
       .then((response) => {
         window.location.reload()
+      })
+      .catch((err) => {
+        this.toastService.error('Something went wrong. Plese try again')
       })
   }
 

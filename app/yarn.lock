@@ -121,7 +121,7 @@
     ora "5.4.1"
     rxjs "7.8.1"
 
-"@angular/animations@^16.2.0":
+"@angular/animations@16.2.11":
   version "16.2.11"
   resolved "https://registry.yarnpkg.com/@angular/animations/-/animations-16.2.11.tgz#e50d618596635a8b98cc23e2d5475fa730d6a085"
   integrity sha512-xdLYXsGi7OuJawhiVIppl2VkPHhPdxUP/nR6+ETR3TdAscVruCWJs4z9XKval4fbik/brekbFNFuYtlx6csDhQ==
@@ -4932,6 +4932,13 @@ ng-multiselect-dropdown@^1.0.0:
   integrity sha512-7Dg2NQKiKTllfqidP7dQxe35aIvQQmbnUWXamhhuRzqbhKl/LQUeQoXxkYxFUwQPFBR9MVb5RJjS3d5Pds1KmQ==
   dependencies:
     tslib "^2.0.0"
+
+ngx-toastr@17.0.2:
+  version "17.0.2"
+  resolved "https://registry.yarnpkg.com/ngx-toastr/-/ngx-toastr-17.0.2.tgz#fb7bb4fc22e5425bbacde0856165d30b7900adec"
+  integrity sha512-KehiPx6bkbiUyJbabf0ZA04+ASumS8r/y4wPsUOMI9OrBvBcfq27UQmWuQKoVR8E+9y4Pq7eZkSg2kvxNvpxTA==
+  dependencies:
+    tslib "^2.3.0"
 
 nice-napi@^1.0.2:
   version "1.0.2"

@@ -24,6 +24,10 @@ import { WebsocketService } from './_services/websocket.service';
 import { NotificationComponent } from './notification/notification.component';
 import { PasswordMatchDirective } from './_directives/password-match.directive';
 
+import { CommonModule } from '@angular/common';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -48,7 +52,10 @@ import { PasswordMatchDirective } from './_directives/password-match.directive';
     FormsModule,
     NgbDatepickerModule,
     AngularMarkdownEditorModule,
-    NgMultiSelectDropDownModule
+    NgMultiSelectDropDownModule,
+    CommonModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot()
   ],
   providers: [WebsocketService],
   bootstrap: [AppComponent]

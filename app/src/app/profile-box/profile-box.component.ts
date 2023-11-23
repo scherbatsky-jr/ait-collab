@@ -1,5 +1,6 @@
 import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { ChatService } from '../_services/chat.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-profile-box',
@@ -14,11 +15,12 @@ export class ProfileBoxComponent {
   @Output() sendRequest = new EventEmitter<string>()
   @Output() acceptRequest = new EventEmitter<string>()
 
-  constructor(private chatService: ChatService) {}
+  constructor(private chatService: ChatService, private toastService: ToastrService) {}
 
   onClickButton () {
     if (this.userType == 'suggestion') {
       this.sendRequest.emit(this.user._id)
+      this.toastService.success('You request has been sent.')
     } else if (this.userType == 'mentor') {
       this.chatService.toggleChatbox(true);
     } else {
