@@ -6,6 +6,7 @@ COPY app app
 
 WORKDIR /usr/src/ait-collab/app
 
+RUN yarn install
 RUN yarn run build
 
 FROM nginx:1.21-alpine
