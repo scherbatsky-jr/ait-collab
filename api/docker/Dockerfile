@@ -2,9 +2,13 @@ FROM node:16 as builder
 
 WORKDIR /usr/src/ait-collab
 
+RUN ls
+
 COPY api api
 
 WORKDIR /usr/src/scds/ait-collab/api
+
+RUN ls
 
 RUN yarn run build
 
