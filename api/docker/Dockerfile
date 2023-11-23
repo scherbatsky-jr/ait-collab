@@ -18,8 +18,6 @@ WORKDIR /usr/src/ait-collab/api
 
 RUN yarn
 
-RUN yarn run start
-
 FROM nginx:1.21-alpine
 
 COPY ./api/docker/nginx.conf /etc/nginx/conf.d/default.conf
