@@ -6,7 +6,9 @@ COPY api api
 
 WORKDIR /usr/src/ait-collab/api
 
-RUN yarn run build
+RUN yarn
+
+RUN yarn run start
 
 FROM nginx:1.21-alpine
 
