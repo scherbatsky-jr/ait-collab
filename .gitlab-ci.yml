@@ -3,4 +3,4 @@ stages:
 
 include:
   - local: 'api/.gitlab-ci.yml'
-  # - local: 'api/gitlab-ci.yml'
+  - local: 'app/gitlab-ci.yml'
