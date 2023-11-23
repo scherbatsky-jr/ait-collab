@@ -2,7 +2,15 @@ FROM node:16 as builder
 
 WORKDIR /usr/src/ait-collab
 
+ARG api_name='AIT Collab API'
+ARG api_port=20178
+ARG api_version-0.1
+
 COPY api api
+
+ENV APP_NAME $api_name
+ENV APP_PORT $api_port
+ENV APP_VERSION $api_version
 
 WORKDIR /usr/src/ait-collab/api
 
