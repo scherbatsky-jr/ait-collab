@@ -8,3 +8,14 @@
     color: white;
     grid-gap: 1rem;
 }
+
+.count {
+  background-color: red;
+  border-radius: 50%;
+  font-weight: bolder;
+  position: relative;
+  top: -9px;
+  float: right;
+  height: 0.75rem;
+  width: 0.75rem;
+}

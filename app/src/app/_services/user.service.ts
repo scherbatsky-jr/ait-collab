@@ -87,6 +87,28 @@ export class UserService {
     })
   }
 
+  getUnreadNotifications(): Promise<AxiosResponse> {
+    return axiosClient
+      .get('/user/unread-notifications')
+      .then(response => {
+        return response
+      })
+      .catch((error) => {
+        throw error;
+    })
+  }
+
+  markNotificationsAsRead(ids: Array<any>): Promise<AxiosResponse> {
+    return axiosClient
+      .post('/user/notifications/mark-as-read', { notificationIds: ids })
+      .then(response => {
+        return response
+      })
+      .catch((error) => {
+        throw error;
+    })
+  }
+
   uploadPhoto(file: File): Promise<AxiosResponse> {
     const formData = new FormData();
     formData.append('photo', file);

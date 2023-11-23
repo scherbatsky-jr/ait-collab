@@ -1,1 +1,4 @@
-<p>notification works!</p>
+<div *ngIf="showNotifications" class="notification-dropdown">
+    <div *ngIf="!notifications.length">No notifications right now.</div>
+    <div *ngFor="let n of notifications" class="notification" (click)="goToConnections()">{{ n.message }}</div>
+</div>

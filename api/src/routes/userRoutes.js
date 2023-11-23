@@ -3,6 +3,7 @@ const router = express.Router();
 const multer = require('multer');
 
 const userController = require('../controllers/userController')
+const notificationController = require('../controllers/notificationController')
 
 const storage = multer.memoryStorage(); // Use memory storage for multer
 
@@ -23,5 +24,8 @@ router.post('/accept-connection-request', userController.acceptConnectionRequest
 router.get('/pending-connection-requests', userController.getPendingConnectionRequests);
 
 router.post('/upload', upload.single('photo'), userController.uploadPhoto);
+
+router.get('/unread-notifications', notificationController.getUnreadNotifications);
+router.post('/notifications/mark-as-read', notificationController.markNotificationsAsRead);
 
 module.exports = router;

@@ -1,0 +1,21 @@
+.notification-dropdown {
+    position: absolute;
+    top: 50px;
+    right: 10px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    color: black;
+    z-index: 1000;
+}
+
+.notification {
+    cursor: pointer;
+    padding: 0.5rem;
+    border-bottom: 1px solid grey;
+
+    :last-child {
+        border-bottom: none;
+    }
+}

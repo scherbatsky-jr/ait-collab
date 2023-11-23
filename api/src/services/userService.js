@@ -1,5 +1,6 @@
 const User = require('../models/user');
 const chatService = require('../services/chatService')
+const notificationService = require('../services/notificationService')
 
 const s3 = require('../configs/aws')
 const fs = require('fs');
@@ -124,6 +125,11 @@ const sendConnectionRequest = async(userId, targetUserId) => {
     await user.save();
     await targetUser.save();
 
+    notificationService.createNotification(
+      targetUser._id,
+      `${user.firstName} ${user.lastName} has sent you a request`
+    )
+
     return { message: 'Connection request sent' };
   } catch (error) {
     throw new Error(`Error in UserService: ${error.message}`);
@@ -169,6 +175,11 @@ const acceptConnectionRequest = async (userId, requesterId) => {
 
     await user.save();
     await requester.save();
+
+    notificationService.createNotification(
+      requester._id,
+      `${user.firstName} ${user.lastName} has accepted your request.`
+    )
 
     chatService.createChat([user._id.toString(), requester._id.toString()])
 

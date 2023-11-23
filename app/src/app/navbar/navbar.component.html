@@ -5,7 +5,8 @@
         <div *ngIf="isLoggedIn()" class="navbar-options">
             <div class="nav-item">
               <i class="fa-solid fa-bell" (click)="toggleNotifications()"></i>
-              <app-notification [showNotifications]="showNotification"></app-notification>
+              <div class="count" *ngIf="notifications.length"></div>
+              <app-notification [showNotifications]="showNotification" [notifications]="notifications"></app-notification>
             </div>
           </div>
         <ul *ngIf="!isLoggedIn()" class="navbar-nav ml-auto">

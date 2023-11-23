@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../_services/auth.service';
+import { UserService } from '../_services/user.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -9,8 +10,22 @@ import { Router } from '@angular/router';
 })
 export class NavbarComponent {
   showNotification: boolean = false;
+  notifications: Array<any> = []
 
-  constructor (private authService: AuthService, private router: Router) {}
+  constructor (
+    private authService: AuthService,
+    private userService: UserService,
+    private router: Router
+  ) {}
+
+  ngOnInit() {
+    if (this.authService.isLoggedIn()) {
+      this.userService.getUnreadNotifications()
+        .then(response => {
+          this.notifications = response.data
+        })
+    }
+  }
 
   isLoggedIn(): boolean {
     return this.authService.isLoggedIn();
@@ -18,6 +33,9 @@ export class NavbarComponent {
 
   toggleNotifications(): void {
     this.showNotification = !this.showNotification;
+
+    const notIds = this.notifications.map(n => n._id)
+    this.userService.markNotificationsAsRead(notIds)
   }
 
   onLogout(): void {
