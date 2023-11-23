@@ -102,7 +102,7 @@ app.get('/', (req, res) => {
 const server = http.createServer(app);
 const io = socket(server, {
   cors: {
-    origin: 'http://localhost:20171',
+    origin: process.env.APP_URL,
     methods: ['GET', 'POST'],
     credentials: true,
   }
@@ -140,7 +140,7 @@ io.sockets.on('connection', (socket) => {
 })
 
 // Start the server
-const port = process.env.PORT || 20178;
+const port = process.env.APP_PORT;
 
 server.listen(port, () => {
   console.log(`Server started on port ${port}`);
