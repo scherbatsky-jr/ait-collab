@@ -1,20 +1,19 @@
-stages:
-  - build
-
 variables:
-  DOCKER_REGISTRY: registry.gitlab.com
+  DOCKER_REGISTRY: 791674964012.dkr.ecr.ap-southeast-1.amazonaws.com/ait-collab-app
 
-services:
-  - docker:dind
-
-before_script:
-  - echo "Building Docker image for App"
-
-build_app:
+build_api:
   stage: build
+  image:
+    name: gcr.io/kaniko-project/executor:v1.14.0-debug
+    entrypoint: [""]
   script:
-    - cd app
-    - docker build -t $DOCKER_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME/app:$CI_COMMIT_REF_NAME .
-    - docker push $DOCKER_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME/app:$CI_COMMIT_REF_NAME
+    -  mkdir -p /kaniko/.docker
+    -  echo "{\"credsStore\":\"ecr-login\"}" > /kaniko/.docker/config.json
+    - /kaniko/executor
+      --context "${CI_PROJECT_DIR}"
+      --dockerfile "${CI_PROJECT_DIR}/app/docker/Dockerfile"
+      --destination "${DOCKER_REGISTRY}:0.1"
   only:
     - branches
+  tags:
+    - docker

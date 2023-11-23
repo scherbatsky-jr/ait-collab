@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import io from 'socket.io-client';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class WebsocketService {
 
-  private socket = io('ws://localhost:20178');
+  private socket = io('ws://'+environment.baseApiURL);
   
   constructor() {
   }

@@ -1,9 +1,10 @@
 import axios from 'axios';
+import { environment } from 'src/environments/environment';
 
 const token = localStorage.getItem('access_token') as string;
 
 const axiosClient = axios.create({
-    baseURL: 'http://localhost:20178',
+    baseURL: environment.baseApiURL,
     timeout: 5000,
     headers: {
       'Authorization': `Bearer ${token}`,

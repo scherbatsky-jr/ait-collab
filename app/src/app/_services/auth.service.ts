@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
 import axios, { AxiosResponse, AxiosError } from 'axios';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:20178'; // Set your API URL
+  private apiUrl = environment.baseApiURL
   private axiosInstance = axios.create({
     baseURL: this.apiUrl,
-    timeout: 10000, // Adjust the timeout as needed
+    timeout: 10000,
   });
 
   constructor(private router: Router) {}
