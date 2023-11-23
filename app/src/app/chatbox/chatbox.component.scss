@@ -9,7 +9,7 @@
     align-items: flex-end;
 
     &__list {
-        border: 1px solid grey;
+        border: none;
         margin-right: 1rem;
         width: 20rem;
         background: whitesmoke;
@@ -35,7 +35,6 @@
     }
 
     &__message-box {
-        border: 1px solid grey;
         width: 20rem;
         margin-right: 2rem;
     }
@@ -69,7 +68,6 @@
     }
 
     &__messages {
-        border: 1px solid grey;
         background: whitesmoke;
         box-shadow: inset 0px 0px 0px grey;
         display: flex;
@@ -113,6 +111,7 @@
 
     &__input {
         border-top: 1px solid grey;
+        background-color: white;
         display: flex;
         padding: 0.25rem;
         width: 100%;

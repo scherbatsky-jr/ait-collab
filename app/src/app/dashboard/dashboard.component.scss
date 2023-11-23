@@ -1,4 +1,5 @@
 .mentor-suggestions, .connections {
+    background-color: white;
     border: 1px solid grey;
     border-radius: 0.5rem;
     display: flex;
@@ -27,4 +28,11 @@
         height: 20rem;
         width: 20rem;
     }
+}
+
+:host {
+    background-image: url('../../assets/back.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }

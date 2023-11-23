@@ -21,6 +21,12 @@ export class RegisterComponent {
 
   constructor(private authService: AuthService, private router: Router) {}
 
+  ngOnInit() {
+    if (this.authService.isLoggedIn()) {
+      this.router.navigate(['/dashboard'])
+    }
+  }
+
   onSubmit(registerForm: NgForm) {
     if (registerForm.valid) {
       const userInfo = {

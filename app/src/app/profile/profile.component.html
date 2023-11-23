@@ -86,7 +86,7 @@
                   </div>
 
                   <div class="form-gorup mb-2">
-                    <input type="checkbox" class="checkbox" [value]="userInfo.mentor" (change)="onCheckMentor()">I want to be a mentor.
+                    <input type="checkbox" class="checkbox" [checked]="userInfo.mentor" (change)="onCheckMentor()">I want to be a mentor.
                   </div>
                 
                   <button type="submit" class="btn btn-primary" [disabled]="disableSubmit">Save</button>

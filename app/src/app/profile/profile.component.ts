@@ -168,7 +168,7 @@ export class ProfileComponent {
   }
 
   updateUser() {
-    this. disableSubmit = true
+    this.disableSubmit = true
     this.userService.updateUser(this.userInfo)
       .then((responnse) => {
         this.showSuccessMessage = true;
